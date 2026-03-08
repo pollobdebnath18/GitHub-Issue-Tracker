@@ -67,13 +67,24 @@
           </div>
         </div>
       </nav>
-      <!--Count issue -->
+      <!-- 3 card -->
       <section class="w-11/12 mx-auto pt-10">
         <div class="bg-white shadow-sm p-5 flex gap-4 rounded-lg mb-4">
-          <button class="btn btn-primary">All</button>
-          <button class="btn">Open</button>
-          <button class="btn">Closed</button>
+          <button
+            onclick="toggleButton('all')"
+            id="all"
+            class="btn btn-primary"
+          >
+            All
+          </button>
+          <button onclick="toggleButton('open')" id="open" class="btn">
+            Open
+          </button>
+          <button onclick="toggleButton('closed')" id="closed" class="btn">
+            Closed
+          </button>
         </div>
+        <!-- Count Issue -->
         <div
           class="bg-white shadow-sm p-5 flex justify-between items-center rounded-sm"
         >
@@ -84,7 +95,7 @@
               alt=""
             />
             <div>
-              <h2 class="font-semibold text-[20px]">50 Issues</h2>
+              <h2 class="font-semibold text-[20px]"> <span id="totalCount"></span> Issues</h2>
               <h2 class="text-[14px] text-[#64748B]">
                 Track and manage your project issues
               </h2>
@@ -107,48 +118,10 @@
         </div>
       </section>
       <!-- show all issue card -->
-      <section class="w-11/12 mx-auto pt-10 pb-10 grid grid-cols-4 gap-4">
-        <!-- card -->
-        <div class="bg-white shadow-xl rounded-xl px-5 py-3 space-y-3">
-          <div class="flex justify-between items-center">
-            <img class="w-8 h-8" src="assets/Open-Status.png" alt="" />
-            <p
-              class="text-[#EF4444] bg-[#FEECEC] px-5 py-2 rounded-b-2xl rounded-t-2xl"
-            >
-              Help
-            </p>
-          </div>
-          <div>
-            <h2 class="text-[17px] font-semibold">
-              Fix navigation menu on mobile devices
-            </h2>
-          </div>
-          <div>
-            <p class="text-[12px] text-[#64748B]">
-              The navigation menu doesn't collapse properly on mobile devices...
-            </p>
-          </div>
-          <div class="flex justify-start items-center gap-2">
-            <p
-              class="text-[#EF4444] bg-[#FEECEC] text-[12px] px-2 py-1 rounded-b-2xl rounded-t-2xl"
-            >
-              <i class="fa-solid fa-bug"></i> BUG
-            </p>
-            <p
-              class="text-[#F59E0B] bg-[#FFF6D1] text-[12px] px-2 py-1 rounded-b-2xl rounded-t-2xl"
-            >
-              <i class="fa-solid fa-life-ring"></i> HELP WANTED
-            </p>
-          </div>
-
-          <div>
-            <div class="divider -mx-5"></div>
-
-            <p class="text-[13px] text-[#64748B]">#1 by john_doe</p>
-            <p class="text-[13px] text-[#64748B] p-2">1/15/2024</p>
-          </div>
-        </div>
-      </section>
+      <section
+        id="cartContainer"
+        class="w-11/12 mx-auto pt-10 pb-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      ></section>
     </main>
 
     <script src="functionality.js"></script>
