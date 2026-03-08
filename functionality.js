@@ -4,7 +4,8 @@ const allBtn = document.getElementById("all");
 const openBtn = document.getElementById("open");
 const closedBtn = document.getElementById("closed");
 const cartContainer = document.getElementById("cartContainer");
-const totalCount = document.getElementById('totalCount');
+const totalCount = document.getElementById("totalCount");
+const loaderSpinner = document.getElementById("loaderSpinner");
 let allCart = [];
 let openCart = [];
 let closedCard = [];
@@ -25,14 +26,23 @@ function login() {
     alert("UserName Invalid");
   }
 }
+function showLoader() {
+  loaderSpinner.classList.remove("hidden");
+}
+function hideLoader() {
+  loaderSpinner.classList.add("hidden");
+}
 //toggle btn
 function toggleButton(id) {
+  showLoader();
   stat = id;
   allBtn.classList.remove("btn-primary");
   openBtn.classList.remove("btn-primary");
   closedBtn.classList.remove("btn-primary");
 
   document.getElementById(id).classList.add("btn-primary");
+
+  loadAllIssue();
 }
 
 //load all card
@@ -41,16 +51,21 @@ const loadAllIssue = async () => {
     `https://phi-lab-server.vercel.app/api/v1/lab/issues`,
   );
   const data = await res.json();
+  hideLoader();
   displayAllIssue(data.data);
 };
 loadAllIssue();
 const displayAllIssue = (issues) => {
- totalCount.textContent=issues.length;
+  //   console.log(stat);
+  let cnt = 0;
+
   cartContainer.innerHTML = "";
   issues.forEach((item) => {
-    const cart = document.createElement("div");
-    cart.className = "bg-white shadow-xl rounded-xl px-5 py-3 space-y-3";
-    cart.innerHTML = `
+    if (stat === "all" || item.status === stat) {
+      cnt++;
+      const cart = document.createElement("div");
+      cart.className = "bg-white shadow-xl rounded-xl px-5 py-3 space-y-3";
+      cart.innerHTML = `
         <div class="flex justify-between items-center">
             <img class="w-8 h-8" src="assets/Open-Status.png" alt="" />
             <p
@@ -89,6 +104,9 @@ const displayAllIssue = (issues) => {
             <p class="text-[13px] text-[#64748B] p-2">1/15/2024</p>
           </div>
     `;
-    cartContainer.appendChild(cart);
+      cartContainer.appendChild(cart);
+    }
   });
+
+  totalCount.textContent = cnt;
 };
