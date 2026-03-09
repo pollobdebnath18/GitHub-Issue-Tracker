@@ -13,6 +13,7 @@ const modalTime = document.getElementById("time");
 const modalDes = document.getElementById("modal-des");
 const modalAssignee = document.getElementById("assignee");
 const modalPriority = document.getElementById("priority");
+const modalOpenOrClose = document.getElementById("open-or-close");
 
 let allCart = [];
 let openCart = [];
@@ -48,12 +49,16 @@ function openModal(item) {
   modalDes.textContent = item.description;
   modalAssignee.textContent = item.assignee;
   modalPriority.textContent = item.priority;
+  modalOpenOrClose.textContent = item.status;
   if (item.priority == "high") {
-    modalPriority.className = "text-[#EF4444] bg-[#FEECEC] text-[14px]  px-2 py-1  rounded-xl";
+    modalPriority.className =
+      "text-[#EF4444] bg-[#FEECEC] text-[14px]  px-2 py-1  rounded-xl";
   } else if (item.priority == "medium") {
-    modalPriority.className = "text-[#F59E0B] bg-[#FFF6D1] text-[14px]  px-2 py-1  rounded-xl";
+    modalPriority.className =
+      "text-[#F59E0B] bg-[#FFF6D1] text-[14px]  px-2 py-1  rounded-xl";
   } else if (item.priority == "low") {
-    modalPriority.className = "text-[#9CA3AF] bg-[#EEEFF2] text-[14px]  px-2 py-1  rounded-xl";
+    modalPriority.className =
+      "text-[#9CA3AF] bg-[#EEEFF2] text-[14px]  px-2 py-1  rounded-xl";
   }
 }
 
@@ -89,8 +94,12 @@ const displayAllIssue = (issues) => {
     if (stat === "all" || item.status === stat) {
       cnt++;
       const cart = document.createElement("div");
-      cart.className =
-        "bg-white shadow-xl rounded-xl px-5 py-3 space-y-3 cursor-pointer";
+      const topBorderClass =
+        item.status === "open"
+          ? "border-t-4 border border-t-green-500 rounded-t-xl"
+          : "border-t-4 border border-t-purple-500 rounded-t-xl";
+      cart.className = `bg-white shadow-xl rounded-xl px-5 py-3 space-y-3 cursor-pointer ${topBorderClass}`;
+
       const priorityClass =
         item.priority === "high"
           ? "text-[#EF4444] bg-[#FEECEC]"
@@ -133,7 +142,7 @@ const displayAllIssue = (issues) => {
                 <div class="divider -mx-5"></div>
           </div>
           <div>
-            <p class="text-[13px] text-[#64748B]">#1 by john_doe</p>
+            <p class="text-[13px] text-[#64748B]">#${item.id} by ${item.author}</p>
             <p class="text-[13px] text-[#64748B] p-2">${item.createdAt}</p>
           </div>
     `;
@@ -144,3 +153,16 @@ const displayAllIssue = (issues) => {
 
   totalCount.textContent = cnt;
 };
+//search functionality
+document.getElementById("search-btn").addEventListener("click", async () => {
+  showLoader();
+  const input = document.getElementById("search-input");
+  const searchValue = input.value.trim().toLowerCase();
+  const res = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchValue}`,
+  );
+  const data = await res.json();
+  const allWords = data.data;
+  hideLoader();
+  displayAllIssue(allWords);
+});
