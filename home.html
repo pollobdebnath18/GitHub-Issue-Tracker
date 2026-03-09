@@ -61,7 +61,12 @@
                   <path d="m21 21-4.3-4.3"></path>
                 </g>
               </svg>
-              <input id="search-input" type="search" required placeholder="Search" />
+              <input
+                id="search-input"
+                type="search"
+                required
+                placeholder="Search"
+              />
             </label>
             <a id="search-btn" class="btn btn-primary">Search</a>
           </div>
@@ -69,7 +74,9 @@
       </nav>
       <!-- 3 card -->
       <section class="w-11/12 mx-auto pt-10">
-        <div class="bg-white shadow-sm p-5 flex gap-4 rounded-lg mb-4">
+        <div
+          class="bg-white shadow-sm p-5 flex gap-4 rounded-lg mb-4 justify-center md:justify-start"
+        >
           <button
             onclick="toggleButton('all')"
             id="all"
@@ -144,7 +151,8 @@
                   Fix broken image uploads
                 </h1>
                 <div class="flex gap-4 items-center">
-                  <p id="open-or-close"
+                  <p
+                    id="open-or-close"
                     class="text-[12px] text-white bg-[#00A96E] px-2 py-1 rounded-t-2xl rounded-b-2xl"
                   >
                     Opened
@@ -157,18 +165,10 @@
                   </li>
                 </div>
               </div>
-              <div class="flex justify-start items-center gap-2">
-                <p
-                  class="text-[#EF4444] bg-[#FEECEC] text-[12px] px-2 py-1 rounded-b-2xl rounded-t-2xl"
-                >
-                  <i class="fa-solid fa-bug"></i> BUG
-                </p>
-                <p
-                  class="text-[#F59E0B] bg-[#FFF6D1] text-[12px] px-2 py-1 rounded-b-2xl rounded-t-2xl"
-                >
-                  <i class="fa-solid fa-life-ring"></i> HELP WANTED
-                </p>
-              </div>
+              <div
+                id="labels"
+                class="flex justify-start items-center gap-2"
+              ></div>
               <div>
                 <p id="modal-des" class="text-[#64748B] text-[15px]">
                   The navigation menu doesn't collapse properly on mobile

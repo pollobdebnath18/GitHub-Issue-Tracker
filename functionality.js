@@ -60,6 +60,7 @@ function openModal(item) {
     modalPriority.className =
       "text-[#9CA3AF] bg-[#EEEFF2] text-[14px]  px-2 py-1  rounded-xl";
   }
+  document.getElementById('labels').innerHTML=createArray(item.labels);
 }
 
 //toggle btn
@@ -127,16 +128,8 @@ const displayAllIssue = (issues) => {
             </p>
           </div>
           <div class="flex justify-start items-center gap-2">
-            <p
-              class="text-[#EF4444] bg-[#FEECEC] text-[12px] px-2 py-1 rounded-b-2xl rounded-t-2xl"
-            >
-              <i class="fa-solid fa-bug"></i> BUG
-            </p>
-            <p
-              class="text-[#F59E0B] bg-[#FFF6D1] text-[12px] px-2 py-1 rounded-b-2xl rounded-t-2xl"
-            >
-              <i class="fa-solid fa-life-ring"></i> HELP WANTED
-            </p>
+          ${createArray(item.labels)}
+           
           </div>
           <div>
                 <div class="divider -mx-5"></div>
@@ -165,4 +158,18 @@ document.getElementById("search-btn").addEventListener("click", async () => {
   const allWords = data.data;
   hideLoader();
   displayAllIssue(allWords);
+  input.value = "";
 });
+
+// create array
+function createArray(arr) {
+  console.log(arr);
+  const elements = arr.map((el) => {
+    return `<p
+        class="text-[#EF4444] bg-[#FEECEC] text-[12px] px-2 py-1 rounded-b-2xl rounded-t-2xl"
+            >
+              ${el}
+       </p>`;
+  });
+  return elements.join(" ");
+}
