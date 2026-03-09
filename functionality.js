@@ -6,6 +6,14 @@ const closedBtn = document.getElementById("closed");
 const cartContainer = document.getElementById("cartContainer");
 const totalCount = document.getElementById("totalCount");
 const loaderSpinner = document.getElementById("loaderSpinner");
+const myModal = document.getElementById("my_modal");
+const modalTitle = document.getElementById("modalTitle");
+const modalAuthor = document.getElementById("author");
+const modalTime = document.getElementById("time");
+const modalDes = document.getElementById("modal-des");
+const modalAssignee = document.getElementById("assignee");
+const modalPriority = document.getElementById("priority");
+
 let allCart = [];
 let openCart = [];
 let closedCard = [];
@@ -32,6 +40,23 @@ function showLoader() {
 function hideLoader() {
   loaderSpinner.classList.add("hidden");
 }
+function openModal(item) {
+  myModal.showModal();
+  modalTitle.textContent = item.title;
+  modalAuthor.textContent = item.author;
+  modalTime.textContent = item.updatedAt;
+  modalDes.textContent = item.description;
+  modalAssignee.textContent = item.assignee;
+  modalPriority.textContent = item.priority;
+  if (item.priority == "high") {
+    modalPriority.className = "text-[#EF4444] bg-[#FEECEC] text-[14px]  px-2 py-1  rounded-xl";
+  } else if (item.priority == "medium") {
+    modalPriority.className = "text-[#F59E0B] bg-[#FFF6D1] text-[14px]  px-2 py-1  rounded-xl";
+  } else if (item.priority == "low") {
+    modalPriority.className = "text-[#9CA3AF] bg-[#EEEFF2] text-[14px]  px-2 py-1  rounded-xl";
+  }
+}
+
 //toggle btn
 function toggleButton(id) {
   showLoader();
@@ -64,14 +89,22 @@ const displayAllIssue = (issues) => {
     if (stat === "all" || item.status === stat) {
       cnt++;
       const cart = document.createElement("div");
-      cart.className = "bg-white shadow-xl rounded-xl px-5 py-3 space-y-3";
+      cart.className =
+        "bg-white shadow-xl rounded-xl px-5 py-3 space-y-3 cursor-pointer";
+      const priorityClass =
+        item.priority === "high"
+          ? "text-[#EF4444] bg-[#FEECEC]"
+          : item.priority === "medium"
+            ? "text-[#F59E0B] bg-[#FFF6D1]"
+            : "text-[#9CA3AF] bg-[#EEEFF2]";
       cart.innerHTML = `
-        <div class="flex justify-between items-center">
-            <img class="w-8 h-8" src="assets/Open-Status.png" alt="" />
+        <div class="flex justify-between items-center ">
+            ${item.priority === "low" ? `<img class="w-8 h-8" src="assets/Closed- Status .png" alt="" />` : `<img class="w-8 h-8" src="assets/Open-Status.png" alt="" />`}
+            
             <p
-              class="text-[#EF4444] bg-[#FEECEC] px-5 py-2 rounded-b-2xl rounded-t-2xl"
+              class="${priorityClass} px-5 py-2 rounded-b-2xl rounded-t-2xl"
             >
-              Help
+             ${item.priority.toUpperCase()}
             </p>
           </div>
           <div>
@@ -101,9 +134,10 @@ const displayAllIssue = (issues) => {
           </div>
           <div>
             <p class="text-[13px] text-[#64748B]">#1 by john_doe</p>
-            <p class="text-[13px] text-[#64748B] p-2">1/15/2024</p>
+            <p class="text-[13px] text-[#64748B] p-2">${item.createdAt}</p>
           </div>
     `;
+      cart.addEventListener("click", () => openModal(item));
       cartContainer.appendChild(cart);
     }
   });
